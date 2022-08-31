@@ -1,0 +1,66 @@
+create TABLE owner(
+    username varchar(20) primary key,
+	userpassword varchar(20) not null,
+	name varchar(30) not null,
+	phone bigint(10)
+    );
+insert into owner values('sreev','sree@123','Sree Varshini',9876543768);
+CREATE TABLE employee(
+	empid varchar(4) PRIMARY KEY,
+    empname varchar(20) not null,
+    phone bigint(10) not null,
+    address varchar(40) not null,
+    gender varchar(1) not null
+);
+create TABLE material(
+	mid varchar(4) PRIMARY key,
+    mname varchar(20) not null,
+    mcolor varchar(20) not null,
+    mcost float 
+);
+create table income(
+	ownerid varchar(20),
+	tdate date not null,
+	border int not null,
+	quantity int not null,
+	dquantity int not null,
+	amount float not null,
+	primary key(tdate,border),
+	foreign key (ownerid) references owner(username) on delete cascade
+);
+create table product(
+    produced_date date not null,
+    empid varchar(4) not null,
+    border int not null,
+    quantity int not null,
+    dquantity int not null,
+    salary float not null,
+    foreign key (empid) references employee(empid) on delete cascade,
+    primary key(empid,produced_date)
+);
+create table rawmaterial(
+	bdate date not null,
+	mid varchar(4) not null,
+	quantity int not null,
+	cost float not null,
+	foreign key (mid) references material(mid) on delete cascade,
+    primary key(mid,bdate)
+);
+create table outgoing(
+	oid varchar(5) primary key,
+	odate date not null,
+	empid varchar(4) not null,
+	mid varchar(4) not null,
+	foreign key (empid) references employee(empid) on delete cascade,
+	foreign key (mid) references material(mid) on delete cascade
+);
+create table materialStock(
+	mid varchar(4) not null,
+	count int not null,
+	foreign key (mid) references material(mid) on delete cascade	
+);
+create table productStock(
+	border int not null,
+    quantity int not null,
+    dquantity int not null
+);
